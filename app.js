@@ -1,6 +1,16 @@
 (async function initFastPortalApp() {
   'use strict';
 
+  // 0. Tự động nạp CSS từ CDN nếu chưa có
+  const CSS_ID = 'fast-portal-cdn-css';
+  if (!document.getElementById(CSS_ID)) {
+    const link = document.createElement('link');
+    link.id = CSS_ID;
+    link.rel = 'stylesheet';
+    link.href = 'https://cdn.jsdelivr.net/gh/catvang/fast-portal@main/style.css?t=' + Date.now();
+    document.head.appendChild(link);
+  }
+  
   // 1. Xóa phần tử cũ nếu tồn tại
   const oldRoot = document.getElementById('fast-automation-root');
   if (oldRoot) oldRoot.remove();
