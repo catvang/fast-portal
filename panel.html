@@ -1,0 +1,125 @@
+<div class="fa-header">
+  <span style="font-weight:700; display:flex; align-items:center; gap:8px;">
+    ⚡ FAST AUTOMATION PORTAL (LIVE SPLIT-VIEW)
+  </span>
+  <div style="display:flex; gap:8px; align-items:center;">
+    <button type="button" class="fa-stop-btn" id="fa-btn-stop" style="display:none;">DỪNG LẠI</button>
+    <button type="button" id="fa-btn-close-root" style="background:transparent; border:none; color:#fff; font-weight:bold; font-size:16px; cursor:pointer;">✕</button>
+  </div>
+</div>
+
+<div class="fa-split-container">
+  <!-- CỘT TRÁI -->
+  <div class="fa-panel-left">
+    <!-- HỘP KỲ BÁO CÁO & 2 Ô TỪ NGÀY - ĐẾN NGÀY -->
+    <div class="fa-box" style="padding: 6px 8px;">
+      <div class="fa-row-flex" style="margin-bottom: 3px;">
+        <span style="font-weight:700; font-size:11px;">KỲ BÁO CÁO:</span>
+        <div class="fa-stepper">
+          <button type="button" id="fa-step-dec" style="width:20px;height:20px;line-height:18px;">−</button>
+          <input type="text" id="fa-year-input" style="width:42px;height:20px;font-size:11px;">
+          <button type="button" id="fa-step-inc" style="width:20px;height:20px;line-height:18px;">+</button>
+        </div>
+      </div>
+      
+      <input type="text" id="fa-period-string" class="fa-input" style="padding: 3px 6px; font-size: 11.5px; height: 26px;">
+
+      <!-- 2 Ô NHẬP TỪ NGÀY - ĐẾN NGÀY TÙY CHỈNH -->
+      <div class="fa-date-range-row">
+        <span style="font-size:11px;font-weight:bold;color:#475569;">Từ:</span>
+        <input type="text" id="fa-from-date-input" class="fa-date-input" placeholder="DD/MM/YYYY" title="Từ ngày">
+        <span style="font-size:11px;font-weight:bold;color:#475569;">Đến:</span>
+        <input type="text" id="fa-to-date-input" class="fa-date-input" placeholder="DD/MM/YYYY" title="Đến ngày">
+      </div>
+
+      <div style="margin-top:3px;">
+        <div style="font-size:10px;font-weight:700;color:#64748b;display:flex;justify-content:space-between;">
+          <span>CHỌN NĂM CẦN CHẠY:</span>
+        </div>
+        <div class="fa-grid-5" id="fa-years-container"></div>
+      </div>
+
+      <!-- 12 Tháng trên 1 hàng -->
+      <div class="fa-grid-12" id="fa-months-container"></div>
+
+      <!-- Quý & Bán niên & Cả năm -->
+      <div class="fa-grid-7">
+        <button type="button" class="fa-btn btn-period-q" data-q="1">Q1</button>
+        <button type="button" class="fa-btn btn-period-q" data-q="2">Q2</button>
+        <button type="button" class="fa-btn btn-period-q" data-q="3">Q3</button>
+        <button type="button" class="fa-btn btn-period-q" data-q="4">Q4</button>
+        <button type="button" class="fa-btn btn-period-h" data-h="1" title="6 Tháng Đầu Năm">1H</button>
+        <button type="button" class="fa-btn btn-period-h" data-h="2" title="6 Tháng Cuối Năm">2H</button>
+        <button type="button" class="fa-btn" id="fa-btn-fullyear" title="Cả năm">Năm</button>
+      </div>
+
+      <div style="border-top:1px dashed #cbd5e1;margin-top:4px;padding-top:4px;display:flex;gap:4px;">
+        <button type="button" class="fa-btn" style="flex:1;padding:1px 0;" id="fa-combo-12m">12 Tháng</button>
+        <button type="button" class="fa-btn" style="flex:1;padding:1px 0;" id="fa-combo-4q">4 Quý</button>
+        <button type="button" class="fa-btn" style="flex:1;padding:1px 0;" id="fa-combo-all">Năm + 4 Quý</button>
+      </div>
+    </div>
+
+    <!-- HỘP ĐVCS & TÙY CHỌN & NÚT CHẠY -->
+    <div class="fa-box">
+      <div class="fa-row-flex">
+        <span style="font-weight:700; font-size:11.5px;">CHI NHÁNH:</span>
+        <div>
+          <button type="button" class="fa-btn" style="padding:1px 5px;" id="fa-dvcs-all">Tất cả</button>
+          <button type="button" class="fa-btn" style="padding:1px 5px;" id="fa-dvcs-none">Bỏ</button>
+        </div>
+      </div>
+      <input type="text" id="fa-dvcs-input" class="fa-input" placeholder="CTY, D02, D05 (để trống: Tổng hợp)">
+
+      <div style="display:flex;gap:8px;margin-top:4px;background:#fff;padding:3px 6px;border-radius:4px;border:1px solid #cbd5e1;">
+        <label class="fa-chk-tag"><input type="checkbox" class="fa-chk-dvcs" value="CTY"> CTY</label>
+        <label class="fa-chk-tag"><input type="checkbox" class="fa-chk-dvcs" value="D02"> D02</label>
+        <label class="fa-chk-tag"><input type="checkbox" class="fa-chk-dvcs" value="D03"> D03</label>
+        <label class="fa-chk-tag"><input type="checkbox" class="fa-chk-dvcs" value="D05"> D05</label>
+      </div>
+
+      <div style="margin-top:4px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+        <label class="fa-chk-tag" title="Tính từ ngày 01/01 đến cuối kỳ báo cáo đã chọn">
+          <input type="checkbox" id="fa-opt-from-start-year"> Từ đầu năm (01/01)
+        </label>
+        <label class="fa-chk-tag"><input type="checkbox" id="fa-opt-split-dvcs"> Tách chi nhánh</label>
+        <label class="fa-chk-tag"><input type="checkbox" id="fa-opt-split-year"> Lặp theo năm</label>
+        <label class="fa-chk-tag"><input type="checkbox" id="fa-opt-auto-dl"> Tự xuất Excel</label>
+      </div>
+
+      <button type="button" class="fa-run-btn" id="fa-btn-run">🚀 CHẠY LỰA CHỌN ĐÃ TÍCH</button>
+    </div>
+
+    <!-- KHUNG DANH MỤC PHÂN THEO NHÓM -->
+    <div class="fa-task-panel">
+      <div class="fa-row-flex" style="margin-bottom:6px;">
+        <span style="font-weight:700; color:#0f172a;">DANH MỤC (BẤM NÚT XANH CHẠY NGAY):</span>
+        <div style="display:flex;gap:4px;">
+          <button type="button" class="fa-btn" style="padding:2px 6px;" id="fa-task-select-rep">BCTC (B->E)</button>
+          <button type="button" class="fa-btn" style="padding:2px 6px;" id="fa-task-select-all">Hết</button>
+          <button type="button" class="fa-btn" style="padding:2px 6px;" id="fa-task-select-none">Bỏ</button>
+        </div>
+      </div>
+      <div class="fa-task-list" id="fa-task-container"></div>
+    </div>
+
+    <div class="fa-log-box" id="fa-console-log">Sẵn sàng điều hướng và hiển thị trực tiếp báo cáo...</div>
+  </div>
+
+  <!-- CỘT PHẢI: IFRAME TRỰC TIẾP -->
+  <div class="fa-panel-right">
+    <div class="fa-preview-bar">
+      <span id="fa-preview-title">📺 Màn hình hiển thị Fast Business Online</span>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <button type="button" class="fa-btn-reload-report" id="fa-btn-reload-report" title="Làm tươi lại báo cáo trong iframe">
+          🔄 LÀM TƯƠI BÁO CÁO
+        </button>
+        <button type="button" class="fa-btn-download-direct" id="fa-btn-quick-export" title="Click nhanh nút Export Excel của Fast">
+          📥 TẢI EXCEL NGAY
+        </button>
+        <span id="fa-preview-status" style="font-weight:normal; color:#38bdf8;">Đang chờ lệnh...</span>
+      </div>
+    </div>
+    <iframe id="fast-automation-worker-iframe" src="/FastBusinessOnline/Main/rpt_incd2.aspx?id=15.30.83"></iframe>
+  </div>
+</div>
