@@ -99,7 +99,7 @@
           path: 'rpt_soth3.aspx?id=11.30.71', 
           inputType: 'DATE', 
           inputs: { 
-            tuNgay: '#ctl00_FastBusiness_MainReport_searchExtender0_formCell_1\\.1, [id*="searchExtender0_formCell_1.1"]', 
+            tuNgay: '#ctl00_FastBusiness_MainReport_searchExtender0_formCell_1\\.3, [id*="searchExtender0_formCell_1.3"]', 
             denNgay: '#ctl00_FastBusiness_MainReport_searchExtender0_formCell_1\\.4, [id*="searchExtender0_formCell_1.4"]', 
             nhomTheo: '#ctl00_FastBusiness_MainReport_searchExtender_form_nh_theo, [id*="nh_theo"]',
             nhomTheoVal: '4',
