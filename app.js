@@ -92,6 +92,22 @@
       groupName: 'Hóa đơn & Bán hàng',
       items: [
         { code: 'bh', name: 'Bán hàng theo vụ việc', shortName: 'Bh-Vv', path: 'rpt_soth2.aspx?id=11.30.34', inputType: 'DATE', inputs: { tuNgay: '[id*="ngay_ct1"], [id*="tu_ngay"]', denNgay: '[id*="ngay_ct2"], [id*="den_ngay"]', nhomTheo: '[id*="nh_theo"]', maDvcs: '#ctl00_FastBusiness_MainReport_searchExtender_form_ma_dvcs, [id$="ma_dvcs"]' } },
+        { 
+          code: 'bhmh', 
+          name: 'Bán hàng theo khách và mặt hàng', 
+          shortName: 'Bh-KhMh', 
+          path: 'rpt_soth3.aspx?id=11.30.71', 
+          inputType: 'DATE', 
+          inputs: { 
+            tuNgay: '#ctl00_FastBusiness_MainReport_searchExtender0_formCell_1\\.1, [id*="searchExtender0_formCell_1.1"]', 
+            denNgay: '#ctl00_FastBusiness_MainReport_searchExtender0_formCell_1\\.4, [id*="searchExtender0_formCell_1.4"]', 
+            nhomTheo: '#ctl00_FastBusiness_MainReport_searchExtender_form_nh_theo, [id*="nh_theo"]',
+            nhomTheoVal: '4',
+            chiTietTheo: '#ctl00_FastBusiness_MainReport_searchExtender_form_ct_theo, [id*="ct_theo"]',
+            chiTietTheoVal: '1',
+            maDvcs: '#ctl00_FastBusiness_MainReport_searchExtender1_formCell_9\\.1, [id*="searchExtender1_formCell_9.1"], [id$="ma_dvcs"]' 
+          } 
+        },
         { code: 'mv', name: 'Bảng kê mua vào', shortName: 'Bkmv', path: 'rpt_glthue1.aspx?id=03.39.11', inputType: 'MONTH_SINGLE_YEAR', inputs: { tuThang: '[id*="formCell_1.2"], [id*="form_ky1"], [id*="tu_thang"]', denThang: '[id*="formCell_2.2"], [id*="form_ky2"], [id*="den_thang"]', nam: '[id*="formCell_3.2"], [id*="form_nam"]', maDvcs: '[id*="formCell_11.2"], [id*="formCell_11.3"], [id*="form_ma_dvcs"], [id$="ma_dvcs"]', nhomHdr: '[id*="formCell_14.2"]', chonTt: '[id*="chon_tt"]' } },
         { code: 'br', name: 'Bảng kê bán ra', shortName: 'Bkbr', path: 'rpt_glthue2a.aspx?id=03.39.13', inputType: 'MONTH_SINGLE_YEAR', inputs: { tuThang: '[id*="formCell_1.2"], [id*="form_ky1"], [id*="tu_thang"]', denThang: '[id*="formCell_2.2"], [id*="form_ky2"], [id*="den_thang"]', nam: '[id*="formCell_3.2"], [id*="form_nam"]', maDvcs: '[id*="formCell_7.2"], [id*="formCell_8.2"], [id*="form_ma_dvcs"], [id$="ma_dvcs"]', nhomHdr: '[id*="formCell_10.2"]', chonTt: '[id*="chon_tt"]' } },
         { code: 'tk3', name: 'Tờ khai thuế GTGT', shortName: 'Tkgtgt', path: 'rpt_glthue3.aspx?id=03.39.19', inputType: 'MONTH_SINGLE_YEAR', inputs: { tuThang: '[id*="form_ky1"]', denThang: '[id*="form_ky2"]', nam: '[id*="form_nam"]', maDvcs: '#ctl00_FastBusiness_MainReport_searchExtender_form_ma_dvcs, [id$="ma_dvcs"]', chonTt: '[id*="chon_tt"]', loaiBaoCao: '[id*="form_form"]' } }
@@ -496,7 +512,15 @@
         fillFrameInput(await waitFrameSelector(task.inputs.nam), times.nam);
       }
 
-      if (task.inputs.nhomTheo) selectFrameOption(await waitFrameSelector(task.inputs.nhomTheo), '3', /vụ việc/i);
+      if (task.inputs.nhomTheo) {
+        const nhomVal = task.inputs.nhomTheoVal || '3';
+        const nhomRegex = task.inputs.nhomTheoVal === '4' ? /mặt hàng/i : /vụ việc/i;
+        selectFrameOption(await waitFrameSelector(task.inputs.nhomTheo), nhomVal, nhomRegex);
+      }
+      if (task.inputs.chiTietTheo) {
+        const ctVal = task.inputs.chiTietTheoVal || '1';
+        selectFrameOption(await waitFrameSelector(task.inputs.chiTietTheo), ctVal, /khách hàng/i);
+      }
       if (task.inputs.nhomHdr) {
         const elHdr = await waitFrameSelector(task.inputs.nhomHdr, 2000);
         if (elHdr) fillFrameInput(elHdr, '0');
@@ -818,7 +842,7 @@
     document.querySelectorAll('.fa-chk-task').forEach((c) => (c.checked = false));
   };
   document.getElementById('fa-task-select-rep').onclick = () => {
-    const repCodes = ['cdkt', 'nkc', 'cd', 'kq', 'cp', 'nxt', 'vb', 'nxtk', 'bh', 'mv', 'br', 'tk3', 'kh', 'cc', 'cn', 'htt'];
+    const repCodes = ['cdkt', 'nkc', 'cd', 'kq', 'cp', 'nxt', 'vb', 'nxtk', 'bh', 'bhmh', 'mv', 'br', 'tk3', 'kh', 'cc', 'cn', 'htt'];
     document.querySelectorAll('.fa-chk-task').forEach((c) => {
       c.checked = repCodes.includes(c.value);
     });
